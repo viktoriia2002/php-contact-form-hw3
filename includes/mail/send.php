@@ -8,31 +8,45 @@ $visitor_name ='';
 $visitor_email ='';
 $visitor_message ='';
 $firstnameErr = '';
-$lastnameErr = '';
+$firstnameErr = '';
 $emailErr = '';
-$subjectErr = '';
+$lastnameErr = '';
 $messageErr = '';
 
 //1.check the submission out -> validate the data
 //$results =$_POST;
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["firstname"])) {
-        $firstnameErr = "First name is required";
-    }else{
-        $visitor_name= filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-    }
 
-    if (isset($_POST['lastname'])) {
-        $visitor_name .= ' '.filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-    }
-    if (isset($_POST['email'])) {
-        $visitor_email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($_POST['message'])) {
-        $visitor_message = filter_var(htmlspecialchars($_POST['message']), FILTER_SANITIZE_STRING);
-    }
+if(isset($_POST['firstname'])){
+    $visitor_name= filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+    if (empty($_POST['firstname'])) {
+        $firstnameErr = "Name is required";
+      } else {
+        $visitor_name = test_input($_POST['firstname']);
+      }
 }
+if(isset($_POST['lastname'])){
+    $visitor_name .= ' '.filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
+}
+if(isset($_POST['email'])){
+    $visitor_email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+}
+
+if(isset($_POST['message'])){
+    $visitor_message = filter_var(htmlspecialchars($_POST['message']), FILTER_SANITIZE_STRING);
+}
+
+if (empty($_POST['firstname'])) {
+    $firstnameErr = "Name is required";
+  } else {
+    $visitorname = test_input($_POST["name"]);
+  }
+  
+  if (empty($_POST["email"])) {
+    $emailErr = "Email is required";
+  } else {
+    $email = test_input($_POST["email"]);
+  }
+
 
 $results['name'] = $visitor_name;
 $results['message'] = $visitor_message;

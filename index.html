@@ -23,10 +23,8 @@
         
 
         <form action="./includes/mail/send.php" method="POST" id="mail-form">
-            <div class="contacy-form">
             <label for="firstname">First Name</label>
-            <input type="text" id="firstname" name="firstname" placeholder="first name" pattern=[A-Z\sa-z]{3,20} required>
-        </div>
+            <input type="text" id="firstname" name="firstname" placeholder="first name" required><span class="error"><?php echo $firstnameErr;?></span>
 
             <label for="lastname">Last Name</label><span class="error"><?php echo $lastnameErr;?></span>
 
