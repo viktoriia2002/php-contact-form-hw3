@@ -20,18 +20,24 @@
         <hr class="separator">
 
         <h2 class="mail-header">Processing Mail with AJAX</h2>
+        
 
         <form action="./includes/mail/send.php" method="POST" id="mail-form">
+            <div class="contacy-form">
             <label for="firstname">First Name</label>
-            <input type="text" id="firstname" name="firstname" placeholder="first name" required>
+            <input type="text" id="firstname" name="firstname" placeholder="first name" pattern=[A-Z\sa-z]{3,20} required>
+        </div>
 
-            <label for="lastname">Last Name</label>
+            <label for="lastname">Last Name</label><span class="error"><?php echo $lastnameErr;?></span>
+
             <input type="text" id="lastname" name="lastname" placeholder="last name" required>
 
-            <label for="email">Email</label>
+            <label for="email">Email</label><span class="error"><?php echo $emailnameErr;?></span>
+
             <input type="email" id="email" name="email" placeholder="email" required>
 
-            <label for="message">Your Message</label>
+            <label for="message">Your Message</label><span class="error"><?php echo $messagenameErr;?></span>
+
             <textarea name="message" id="message" cols="30" rows="10"></textarea>
 
             <div class="submit-wrapper">

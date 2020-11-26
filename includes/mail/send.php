@@ -7,22 +7,31 @@ $result = [];
 $visitor_name ='';
 $visitor_email ='';
 $visitor_message ='';
+$firstnameErr = '';
+$lastnameErr = '';
+$emailErr = '';
+$subjectErr = '';
+$messageErr = '';
 
 //1.check the submission out -> validate the data
 //$results =$_POST;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (empty($_POST["firstname"])) {
+        $firstnameErr = "First name is required";
+    }else{
+        $visitor_name= filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+    }
 
-if(isset($_POST['firstname'])){
-    $visitor_name= filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-}
-if(isset($_POST['lastname'])){
-    $visitor_name .= filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-}
-if(isset($_POST['email'])){
-    $visitor_email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
-}
+    if (isset($_POST['lastname'])) {
+        $visitor_name .= ' '.filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
+    }
+    if (isset($_POST['email'])) {
+        $visitor_email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+    }
 
-if(isset($_POST['message'])){
-    $visitor_message = filter_var(htmlspecialchars($_POST['message']), FILTER_SANITIZE_STRING);
+    if (isset($_POST['message'])) {
+        $visitor_message = filter_var(htmlspecialchars($_POST['message']), FILTER_SANITIZE_STRING);
+    }
 }
 
 $results['name'] = $visitor_name;
@@ -31,10 +40,12 @@ $results['message'] = $visitor_message;
 //2.prepare the email
 
 $email_subject = 'Inquary from Portfolio Site';
-$email_recipient = 'test@viktoriiatyshchuk.com';
+$email_recipient = 'viktoriiatyshchuk@gmail.com';
 $email_message = sprintf('Name: %s, Email: %s, Message: %s', $visitor_name, $visitor_email, $visitor_message);
+
+
 $email_headers = array(
-    'From'=>"noreply@yourdomain.com",
+    'From'=>"viktoriiatyshchuk@viktoriiatyshchuk.com",
     'Reply-To'=> $visitor_email,
 
     'From'=>$visitor_email
@@ -45,9 +56,9 @@ $email_headers = array(
 
 $email_result= mail($email_recipient, $email_subject, $email_message, $email_headers);
 if($email_result){
-    $results['message'] = sprintf('thank you for contacting us %s! ', $visitor_name);
+    $results['message'] = sprintf('Thank you for contacting us, %s! ', $visitor_name);
 }else{
-    $results['message'] = sprintf('Error 404');
+    $results['message'] = sprintf('We are sorry but the email did not go through.');
 }
 
 
